@@ -19,6 +19,8 @@
         </activity>
         <activity android:name=".details.MovieDetails"
                   android:parentActivityName=".main.MainActivity"/>
+        <activity android:name=".details.FilmDetails"
+                  android:parentActivityName=".main.MainActivity"/>
     </application>
 
 </manifest>

@@ -1,75 +1,74 @@
 package id.ariefpurnamamuharram.katalogfilm.main
 
 import android.content.Intent
-import android.content.res.TypedArray
 import android.os.Bundle
+import android.provider.Settings
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.widget.AdapterView
-import android.widget.ListView
+import android.view.Menu
+import android.view.MenuItem
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.app.movie.Movie
-import id.ariefpurnamamuharram.katalogfilm.details.MovieDetails
+import id.ariefpurnamamuharram.katalogfilm.main.films.FilmsFragment
+import id.ariefpurnamamuharram.katalogfilm.main.movies.MoviesFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var movieList: ListView
-    private lateinit var movieListAdapter: MovieListAdapter
-    private lateinit var movieTitle: Array<String>
-    private lateinit var movieReleaseDate: Array<String>
-    private lateinit var movieUserScore: Array<String>
-    private lateinit var movieOverview: Array<String>
-    private lateinit var moviePoster: TypedArray
-
-    private var movies: ArrayList<Movie> = arrayListOf()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Prepare movies data.
-        prepare()
-        addItem()
-
-        // Setup movie list.
-        movieListAdapter = MovieListAdapter(this, movies)
-        movieList = findViewById(R.id.movie_list)
-        movieList.adapter = movieListAdapter
-
-        // Setup movie click listener.
-        movieList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val movie = Movie(
-                movies[position].moviePoster,
-                movies[position].movieTitle,
-                movies[position].movieReleaseDate,
-                movies[position].movieUserScore,
-                movies[position].movieOverview
-            )
-            val i = Intent(this, MovieDetails::class.java)
-            i.putExtra("EXTRA_MOVIE", movie)
-            startActivity(i)
-        }
+        bottomNav()
     }
 
-    private fun addItem() {
-        var i = 0
-        while (i < movieTitle.size) {
-            movies.add(
-                i, Movie(
-                    moviePoster.getResourceId(i, -1),
-                    movieTitle[i],
-                    movieReleaseDate[i],
-                    movieUserScore[i],
-                    movieOverview[i]
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_change_settings) {
+            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(mIntent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun bottomNav() {
+        bottom_nav.setOnNavigationItemSelectedListener(mItemSelectedListener)
+        bottom_nav.selectedItemId = R.id.nav_movies
+        bottomNavMenuEnable(navMovies = false, navFilms = true)
+    }
+
+    private val mItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.nav_movies -> {
+                openFragment(MoviesFragment.newInstance())
+                bottomNavMenuEnable(
+                    navMovies = false, navFilms = true
                 )
-            )
-            i++
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.nav_films -> {
+                openFragment(FilmsFragment.newInstance())
+                bottomNavMenuEnable(
+                    navMovies = true, navFilms = false
+                )
+                return@OnNavigationItemSelectedListener true
+            }
         }
+        false
     }
 
-    private fun prepare() {
-        moviePoster = resources.obtainTypedArray(R.array.movie_poster)
-        movieTitle = resources.getStringArray(R.array.movie_title)
-        movieReleaseDate = resources.getStringArray(R.array.movie_release_date)
-        movieUserScore = resources.getStringArray(R.array.movie_user_score)
-        movieOverview = resources.getStringArray(R.array.movie_overview)
+    private fun bottomNavMenuEnable(navMovies: Boolean, navFilms: Boolean) {
+        bottom_nav.menu.getItem(0).isEnabled = navMovies
+        bottom_nav.menu.getItem(1).isEnabled = navFilms
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment)
+        transaction.commit()
     }
 }
