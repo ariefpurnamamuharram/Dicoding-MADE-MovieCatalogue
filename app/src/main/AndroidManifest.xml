@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".details.MovieDetails"
                   android:parentActivityName=".main.MainActivity"/>
-        <activity android:name=".details.FilmDetails"
+        <activity android:name=".details.TVShowsDetails"
                   android:parentActivityName=".main.MainActivity"/>
     </application>
 

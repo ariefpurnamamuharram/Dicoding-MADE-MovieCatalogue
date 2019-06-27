@@ -4,7 +4,14 @@
     <string name="change_language_settings">Change Language Settings</string>
 
     <string name="movies">Movies</string>
-    <string name="films">Films</string>
+    <string name="tv_shows">TV Shows</string>
+
+    <string name="ativity_details_title_movie">Movie Details</string>
+    <string name="ativity_details_title_tv_show">TV Show Details</string>
+
+    <string name="tv_release_date">Release date:</string>
+    <string name="tv_user_score">User\'s score:</string>
+    <string name="tv_overview">Overview</string>
 
     <string-array name="movie_title">
         <item>A Star is Born</item>

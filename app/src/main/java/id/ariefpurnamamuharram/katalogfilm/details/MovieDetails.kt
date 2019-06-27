@@ -19,16 +19,19 @@ class MovieDetails : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_details)
+        setContentView(R.layout.activity_show_details)
 
-        movieTitle = findViewById(R.id.movie_title)
-        movieReleaseDate = findViewById(R.id.movie_release_date)
-        movieUserScore = findViewById(R.id.movie_user_score)
-        movieOverview = findViewById(R.id.movie_overview)
-        moviePoster = findViewById(R.id.movie_poster)
+        movieTitle = findViewById(R.id.show_title)
+        movieReleaseDate = findViewById(R.id.show_release_date)
+        movieUserScore = findViewById(R.id.show_user_score)
+        movieOverview = findViewById(R.id.show_overview)
+        moviePoster = findViewById(R.id.show_poster)
 
         // Retrieve parcelable object.
         movie = intent.getParcelableExtra("EXTRA_MOVIE")
+
+        // Set activity title.
+        supportActionBar?.title = resources.getString(R.string.ativity_details_title_movie)
 
         movieTitle.text = movie.movieTitle
         movieReleaseDate.text = movie.movieReleaseDate

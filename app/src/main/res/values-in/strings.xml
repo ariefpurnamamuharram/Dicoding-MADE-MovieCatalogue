@@ -3,8 +3,15 @@
 
     <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
 
-    <string name="movies">Movies</string>
-    <string name="films">Films</string>
+    <string name="movies">Layar Lebar</string>
+    <string name="tv_shows">Acara TV</string>
+
+    <string name="tv_release_date">Tanggal rilis:</string>
+    <string name="tv_user_score">Penilaian penonton:</string>
+    <string name="tv_overview">Ringkasan</string>
+
+    <string name="ativity_details_title_movie">Detail Film Layar Lebar</string>
+    <string name="ativity_details_title_tv_show">Detail Acara TV</string>
 
     <string-array name="movie_title">
         <item>A Star is Born</item>

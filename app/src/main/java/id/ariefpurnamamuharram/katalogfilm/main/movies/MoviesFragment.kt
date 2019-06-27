@@ -24,9 +24,9 @@ class MoviesFragment : Fragment() {
     private var movies: ArrayList<Movie> = arrayListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_movies, container, false)
+        rootView = inflater.inflate(R.layout.fragment_shows, container, false)
 
-        rvMovies = rootView.findViewById(R.id.rv_movies)
+        rvMovies = rootView.findViewById(R.id.rv_shows)
 
         return rootView
     }

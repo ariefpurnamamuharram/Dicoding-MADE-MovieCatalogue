@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.main.films.FilmsFragment
+import id.ariefpurnamamuharram.katalogfilm.main.tvshows.TVShowsFragment
 import id.ariefpurnamamuharram.katalogfilm.main.movies.MoviesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private fun bottomNav() {
         bottom_nav.setOnNavigationItemSelectedListener(mItemSelectedListener)
         bottom_nav.selectedItemId = R.id.nav_movies
-        bottomNavMenuEnable(navMovies = false, navFilms = true)
+        bottomNavMenuEnable(navMovies = false, navTVShows = true)
     }
 
     private val mItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -45,15 +45,15 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_movies -> {
                 openFragment(MoviesFragment.newInstance())
                 bottomNavMenuEnable(
-                    navMovies = false, navFilms = true
+                    navMovies = false, navTVShows = true
                 )
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.nav_films -> {
-                openFragment(FilmsFragment.newInstance())
+                openFragment(TVShowsFragment.newInstance())
                 bottomNavMenuEnable(
-                    navMovies = true, navFilms = false
+                    navMovies = true, navTVShows = false
                 )
                 return@OnNavigationItemSelectedListener true
             }
@@ -61,9 +61,9 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    private fun bottomNavMenuEnable(navMovies: Boolean, navFilms: Boolean) {
+    private fun bottomNavMenuEnable(navMovies: Boolean, navTVShows: Boolean) {
         bottom_nav.menu.getItem(0).isEnabled = navMovies
-        bottom_nav.menu.getItem(1).isEnabled = navFilms
+        bottom_nav.menu.getItem(1).isEnabled = navTVShows
     }
 
     private fun openFragment(fragment: Fragment) {

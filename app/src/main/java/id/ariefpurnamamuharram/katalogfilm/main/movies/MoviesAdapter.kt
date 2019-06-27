@@ -14,7 +14,7 @@ import id.ariefpurnamamuharram.katalogfilm.details.MovieDetails
 
 class MoviesAdapter(private var movies: MutableList<Movie>) : RecyclerView.Adapter<MoviesViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MoviesViewHolder {
-        return MoviesViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_movie, p0, false))
+        return MoviesViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_show, p0, false))
     }
 
     override fun getItemCount(): Int = movies.size
@@ -25,9 +25,9 @@ class MoviesAdapter(private var movies: MutableList<Movie>) : RecyclerView.Adapt
 }
 
 class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val movieTitle: TextView = view.findViewById(R.id.movie_title)
-    private val movieReleaseDate: TextView = view.findViewById(R.id.movie_release_date)
-    private val moviePoster: ImageView = view.findViewById(R.id.movie_poster)
+    private val movieTitle: TextView = view.findViewById(R.id.item_title)
+    private val movieReleaseDate: TextView = view.findViewById(R.id.item_release_date)
+    private val moviePoster: ImageView = view.findViewById(R.id.item_poster)
 
     fun bindItem(item: Movie) {
         movieTitle.text = item.movieTitle
