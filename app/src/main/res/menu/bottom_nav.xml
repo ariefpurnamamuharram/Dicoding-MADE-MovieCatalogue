@@ -9,4 +9,8 @@
           android:title="@string/tv_shows"
           android:icon="@drawable/ic_films"/>
 
+    <item android:id="@+id/nav_favorites"
+          android:title="@string/favorites"
+          android:icon="@drawable/ic_starred"/>
+
 </menu>

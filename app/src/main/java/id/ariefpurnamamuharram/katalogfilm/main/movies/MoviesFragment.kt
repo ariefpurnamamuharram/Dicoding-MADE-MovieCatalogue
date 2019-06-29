@@ -2,17 +2,18 @@ package id.ariefpurnamamuharram.katalogfilm.main.movies
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import id.ariefpurnamamuharram.katalogfilm.R
 import id.ariefpurnamamuharram.katalogfilm.api.ApiClient
 import id.ariefpurnamamuharram.katalogfilm.api.ApiServices
 import id.ariefpurnamamuharram.katalogfilm.api.movies.Movie
 import id.ariefpurnamamuharram.katalogfilm.api.movies.MoviesResponse
-import kotlinx.android.synthetic.main.fragment_shows.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,22 +21,28 @@ import retrofit2.Response
 class MoviesFragment : Fragment() {
     private lateinit var rootView: View
     private lateinit var rvMovies: RecyclerView
+    private lateinit var progressbar: ProgressBar
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private var movies: ArrayList<Movie> = arrayListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_shows, container, false)
         rvMovies = rootView.findViewById(R.id.rv_shows)
+        progressbar = rootView.findViewById(R.id.progress_bar)
+        swipeRefresh = rootView.findViewById(R.id.swipe_refresh)
         return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // Disable swipeRefresh.
+        swipeRefresh.isEnabled = false
+
         val apiService: ApiServices = ApiClient.getClient().create(
             ApiServices::class.java
         )
 
-        // Load movies.
         getMovies(apiService)
     }
 
@@ -43,7 +50,7 @@ class MoviesFragment : Fragment() {
         val call: Call<MoviesResponse> = apiService.getMovies()
 
         // Show progressbar.
-        progress_bar.visibility = View.VISIBLE
+        progressbar.visibility = View.VISIBLE
         rvMovies.visibility = View.INVISIBLE
 
         call.enqueue(object : Callback<MoviesResponse> {
@@ -53,7 +60,7 @@ class MoviesFragment : Fragment() {
                 movies = response.body()!!.results
 
                 // Kill progressbar.
-                progress_bar.visibility = View.GONE
+                progressbar.visibility = View.GONE
                 rvMovies.visibility = View.VISIBLE
 
                 rvMovies.apply {

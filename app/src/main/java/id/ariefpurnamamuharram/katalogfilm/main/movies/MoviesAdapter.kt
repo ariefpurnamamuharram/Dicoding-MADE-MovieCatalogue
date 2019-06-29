@@ -42,7 +42,9 @@ class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.setOnClickListener {
             Intent(itemView.context, MovieDetails::class.java).also { intent ->
                 intent.putExtra("EXTRA_MOVIE", item).also {
-                    itemView.context.startActivity(it)
+                    intent.putExtra("MOVIE_POSTER_URL", imageUrl.toString()).also {
+                        itemView.context.startActivity(it)
+                    }
                 }
             }
         }

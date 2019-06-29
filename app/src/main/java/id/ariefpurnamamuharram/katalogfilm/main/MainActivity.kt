@@ -9,8 +9,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.main.tvshows.TVShowsFragment
+import id.ariefpurnamamuharram.katalogfilm.main.favorites.FavoritesMainFragment
 import id.ariefpurnamamuharram.katalogfilm.main.movies.MoviesFragment
+import id.ariefpurnamamuharram.katalogfilm.main.tvshows.TVShowsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private fun bottomNav() {
         bottom_nav.setOnNavigationItemSelectedListener(mItemSelectedListener)
         bottom_nav.selectedItemId = R.id.nav_movies
-        bottomNavMenuEnable(navMovies = false, navTVShows = true)
+        bottomNavMenuEnable(navMovies = false, navTVShows = true, navFavorites = true)
     }
 
     private val mItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_movies -> {
                 openFragment(MoviesFragment.newInstance())
                 bottomNavMenuEnable(
-                    navMovies = false, navTVShows = true
+                    navMovies = false, navTVShows = true, navFavorites = true
                 )
                 return@OnNavigationItemSelectedListener true
             }
@@ -53,7 +54,15 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_films -> {
                 openFragment(TVShowsFragment.newInstance())
                 bottomNavMenuEnable(
-                    navMovies = true, navTVShows = false
+                    navMovies = true, navTVShows = false, navFavorites = true
+                )
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.nav_favorites -> {
+                openFragment(FavoritesMainFragment.newInstance())
+                bottomNavMenuEnable(
+                    navMovies = true, navTVShows = true, navFavorites = false
                 )
                 return@OnNavigationItemSelectedListener true
             }
@@ -61,9 +70,10 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    private fun bottomNavMenuEnable(navMovies: Boolean, navTVShows: Boolean) {
+    private fun bottomNavMenuEnable(navMovies: Boolean, navTVShows: Boolean, navFavorites: Boolean) {
         bottom_nav.menu.getItem(0).isEnabled = navMovies
         bottom_nav.menu.getItem(1).isEnabled = navTVShows
+        bottom_nav.menu.getItem(2).isEnabled = navFavorites
     }
 
     private fun openFragment(fragment: Fragment) {

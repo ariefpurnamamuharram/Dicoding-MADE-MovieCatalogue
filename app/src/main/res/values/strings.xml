@@ -5,9 +5,13 @@
 
     <string name="movies">Movies</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="favorites">Favorites</string>
 
     <string name="ativity_details_title_movie">Movie Details</string>
     <string name="ativity_details_title_tv_show">TV Show Details</string>
+
+    <string name="added_to_favorites">Added to favorite list!</string>
+    <string name="removed_from_favorites">Removed from favorite list!</string>
 
     <string name="tv_release_date">Release date:</string>
     <string name="tv_user_score">User\'s score:</string>

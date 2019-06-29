@@ -5,6 +5,10 @@
 
     <string name="movies">Layar Lebar</string>
     <string name="tv_shows">Acara TV</string>
+    <string name="favorites">Daftar Kesukaan</string>
+
+    <string name="added_to_favorites">Ditambahkan ke dalam daftar kesukaan!</string>
+    <string name="removed_from_favorites">Dihapus dari daftar kesukaan!</string>
 
     <string name="tv_release_date">Tanggal rilis:</string>
     <string name="tv_user_score">Penilaian penonton:</string>
