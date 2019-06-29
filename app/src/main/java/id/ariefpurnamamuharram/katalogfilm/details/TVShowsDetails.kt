@@ -6,10 +6,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.app.tvshow.TVShow
+import id.ariefpurnamamuharram.katalogfilm.api.tvshows.TvShow
 
 class TVShowsDetails : AppCompatActivity() {
-    private lateinit var tvShow: TVShow
+    private lateinit var tvShow: TvShow
 
     private lateinit var tvShowTitle: TextView
     private lateinit var tvShowReleaseDate: TextView
@@ -33,11 +33,16 @@ class TVShowsDetails : AppCompatActivity() {
         // Set activity title.
         supportActionBar?.title = resources.getString(R.string.ativity_details_title_tv_show)
 
-        tvShowTitle.text = tvShow.tvShowTitle
-        tvShowReleaseDate.text = tvShow.tvShowReleaseDate
-        tvShowUserScore.text = tvShow.tvShowUserScore
-        tvShowOverview.text = tvShow.tvShowOverview
+        // Poster image URL.
+        val imageUrl = StringBuilder()
+        imageUrl.append("https://image.tmdb.org/t/p/w185")
+            .append(tvShow.poster_path)
 
-        Picasso.get().load(tvShow.tvShowPoster).into(tvShowPoster)
+        tvShowTitle.text = tvShow.original_name
+        tvShowReleaseDate.text = tvShow.first_air_date
+        tvShowUserScore.text = tvShow.vote_average.toString()
+        tvShowOverview.text = tvShow.overview
+
+        Picasso.get().load(imageUrl.toString()).into(tvShowPoster)
     }
 }

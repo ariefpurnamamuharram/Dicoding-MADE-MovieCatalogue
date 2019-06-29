@@ -9,10 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.app.tvshow.TVShow
+import id.ariefpurnamamuharram.katalogfilm.api.tvshows.TvShow
 import id.ariefpurnamamuharram.katalogfilm.details.TVShowsDetails
 
-class TVShowsAdapter(private var TVShows: MutableList<TVShow>) : RecyclerView.Adapter<TVShowsViewHolder>() {
+class TVShowsAdapter(private var TVShows: MutableList<TvShow>) : RecyclerView.Adapter<TVShowsViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): TVShowsViewHolder {
         return TVShowsViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_show, p0, false))
     }
@@ -29,11 +29,15 @@ class TVShowsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val tvShowReleaseDate: TextView = view.findViewById(R.id.item_release_date)
     private val tvShowPoster: ImageView = view.findViewById(R.id.item_poster)
 
-    fun bindItem(item: TVShow) {
-        tvShowTitle.text = item.tvShowTitle
-        tvShowReleaseDate.text = item.tvShowReleaseDate
+    fun bindItem(item: TvShow) {
+        val imageUrl = StringBuilder()
+        imageUrl.append("https://image.tmdb.org/t/p/w185")
+            .append(item.poster_path)
 
-        Picasso.get().load(item.tvShowPoster).into(tvShowPoster)
+        tvShowTitle.text = item.original_name
+        tvShowReleaseDate.text = item.first_air_date
+
+        Picasso.get().load(imageUrl.toString()).into(tvShowPoster)
 
         itemView.setOnClickListener {
             Intent(itemView.context, TVShowsDetails::class.java).also { intent ->

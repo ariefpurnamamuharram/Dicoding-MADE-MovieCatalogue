@@ -1,6 +1,5 @@
 package id.ariefpurnamamuharram.katalogfilm.main.tvshows
 
-import android.content.res.TypedArray
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,66 +8,61 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.app.tvshow.TVShow
+import id.ariefpurnamamuharram.katalogfilm.api.ApiClient
+import id.ariefpurnamamuharram.katalogfilm.api.ApiServices
+import id.ariefpurnamamuharram.katalogfilm.api.tvshows.TvShow
+import id.ariefpurnamamuharram.katalogfilm.api.tvshows.TvShowsResponse
+import kotlinx.android.synthetic.main.fragment_shows.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class TVShowsFragment : Fragment() {
-    private lateinit var tvShowTitle: Array<String>
-    private lateinit var tvShowReleaseDate: Array<String>
-    private lateinit var tvShowUserScore: Array<String>
-    private lateinit var tvShowOverview: Array<String>
-    private lateinit var tvShowPoster: TypedArray
-
     private lateinit var rootView: View
     private lateinit var rvTVShows: RecyclerView
-
-    private var tvShows: ArrayList<TVShow> = arrayListOf()
+    private var tvShows: ArrayList<TvShow> = arrayListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_shows, container, false)
-
         rvTVShows = rootView.findViewById(R.id.rv_shows)
-
         return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // Prepare TVShows data.
-        prepare()
-        addItem()
+        val apiService: ApiServices = ApiClient.getClient().create(
+            ApiServices::class.java
+        )
 
-        // Setup movie RecyclerView.
-        rvTVShows.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = TVShowsAdapter(tvShows)
-        }
+        // Load TV shows.
+        getTvShows(apiService)
     }
 
-    private fun addItem() {
-        var i = 0
-        while (i < tvShowTitle.size) {
-            tvShows.add(
-                i, TVShow(
-                    tvShowPoster.getResourceId(i, -1),
-                    tvShowTitle[i],
-                    tvShowReleaseDate[i],
-                    tvShowUserScore[i],
-                    tvShowOverview[i]
-                )
-            )
-            i++
-        }
-    }
+    private fun getTvShows(apiService: ApiServices) {
+        val call: Call<TvShowsResponse> = apiService.getTvShows()
 
-    private fun prepare() {
-        tvShowPoster = resources.obtainTypedArray(R.array.tv_poster)
-        tvShowTitle = resources.getStringArray(R.array.tv_title)
-        tvShowReleaseDate = resources.getStringArray(R.array.tv_release_date)
-        tvShowUserScore = resources.getStringArray(R.array.tv_user_score)
-        tvShowOverview = resources.getStringArray(R.array.tv_overview)
-    }
+        // Show progressbar.
+        progress_bar.visibility = View.VISIBLE
+        rvTVShows.visibility = View.INVISIBLE
 
+        call.enqueue(object : Callback<TvShowsResponse> {
+            override fun onFailure(call: Call<TvShowsResponse>, t: Throwable) {}
+
+            override fun onResponse(call: Call<TvShowsResponse>, response: Response<TvShowsResponse>) {
+                tvShows = response.body()!!.results
+
+                // Kill progressbar.
+                progress_bar.visibility = View.GONE
+                rvTVShows.visibility = View.VISIBLE
+
+                rvTVShows.apply {
+                    layoutManager = LinearLayoutManager(activity)
+                    adapter = TVShowsAdapter(tvShows)
+                }
+            }
+        })
+    }
 
     companion object {
         fun newInstance(): TVShowsFragment = TVShowsFragment()

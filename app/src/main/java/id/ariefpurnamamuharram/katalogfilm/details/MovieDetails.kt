@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.app.movie.Movie
+import id.ariefpurnamamuharram.katalogfilm.api.movies.Movie
 
 class MovieDetails : AppCompatActivity() {
     private lateinit var movie: Movie
@@ -33,11 +33,16 @@ class MovieDetails : AppCompatActivity() {
         // Set activity title.
         supportActionBar?.title = resources.getString(R.string.ativity_details_title_movie)
 
-        movieTitle.text = movie.movieTitle
-        movieReleaseDate.text = movie.movieReleaseDate
-        movieUserScore.text = movie.movieUserScore
-        movieOverview.text = movie.movieOverview
+        // Poster image URL.
+        val imageUrl = StringBuilder()
+        imageUrl.append("https://image.tmdb.org/t/p/w185")
+            .append(movie.poster_path)
 
-        Picasso.get().load(movie.moviePoster).into(moviePoster)
+        movieTitle.text = movie.title
+        movieReleaseDate.text = movie.release_date
+        movieUserScore.text = movie.vote_average.toString()
+        movieOverview.text = movie.overview
+
+        Picasso.get().load(imageUrl.toString()).into(moviePoster)
     }
 }

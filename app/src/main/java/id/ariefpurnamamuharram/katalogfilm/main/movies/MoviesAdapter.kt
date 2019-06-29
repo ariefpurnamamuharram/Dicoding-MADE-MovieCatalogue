@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import id.ariefpurnamamuharram.katalogfilm.R
-import id.ariefpurnamamuharram.katalogfilm.app.movie.Movie
+import id.ariefpurnamamuharram.katalogfilm.api.movies.Movie
 import id.ariefpurnamamuharram.katalogfilm.details.MovieDetails
 
 class MoviesAdapter(private var movies: MutableList<Movie>) : RecyclerView.Adapter<MoviesViewHolder>() {
@@ -30,10 +30,14 @@ class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val moviePoster: ImageView = view.findViewById(R.id.item_poster)
 
     fun bindItem(item: Movie) {
-        movieTitle.text = item.movieTitle
-        movieReleaseDate.text = item.movieReleaseDate
+        val imageUrl = StringBuilder()
+        imageUrl.append("https://image.tmdb.org/t/p/w185")
+            .append(item.poster_path)
 
-        Picasso.get().load(item.moviePoster).into(moviePoster)
+        movieTitle.text = item.title
+        movieReleaseDate.text = item.release_date
+
+        Picasso.get().load(imageUrl.toString()).into(moviePoster)
 
         itemView.setOnClickListener {
             Intent(itemView.context, MovieDetails::class.java).also { intent ->
