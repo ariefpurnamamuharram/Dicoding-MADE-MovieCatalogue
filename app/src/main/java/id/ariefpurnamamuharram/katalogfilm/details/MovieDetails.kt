@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.squareup.picasso.Picasso
 import id.ariefpurnamamuharram.katalogfilm.R
 import id.ariefpurnamamuharram.katalogfilm.api.movies.Movie
+import id.ariefpurnamamuharram.katalogfilm.api.searchmovies.SearchMovies
 import id.ariefpurnamamuharram.katalogfilm.db.db
 import id.ariefpurnamamuharram.katalogfilm.db.favorites.FavoriteMovie
 import org.jetbrains.anko.db.classParser
@@ -59,6 +60,18 @@ class MovieDetails : AppCompatActivity() {
                     result.posterUrl.toString(),
                     result.overview.toString(),
                     result.releaseDate.toString()
+                )
+                moviePosterUrl = intent.getStringExtra("MOVIE_POSTER_URL")
+            }
+            2 -> {
+                val result: SearchMovies = intent.getParcelableExtra("EXTRA_MOVIE")
+                movie = Movie(
+                    result.id,
+                    result.voteAverage,
+                    result.title,
+                    result.posterPath,
+                    result.overview,
+                    result.releaseDate
                 )
                 moviePosterUrl = intent.getStringExtra("MOVIE_POSTER_URL")
             }

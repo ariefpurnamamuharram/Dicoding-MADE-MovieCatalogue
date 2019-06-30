@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.squareup.picasso.Picasso
 import id.ariefpurnamamuharram.katalogfilm.R
+import id.ariefpurnamamuharram.katalogfilm.api.searchtvshows.SearchTVShows
 import id.ariefpurnamamuharram.katalogfilm.api.tvshows.TVShow
 import id.ariefpurnamamuharram.katalogfilm.db.db
 import id.ariefpurnamamuharram.katalogfilm.db.favorites.FavoriteTVShow
@@ -59,6 +60,18 @@ class TVShowsDetails : AppCompatActivity() {
                     result.voteAverage.toString().toFloat(),
                     result.overview.toString(),
                     result.posterUrl.toString()
+                )
+                tvShowPosterUrl = intent.getStringExtra("TV_SHOW_POSTER_URL")
+            }
+            2 -> {
+                val result: SearchTVShows = intent.getParcelableExtra("EXTRA_TV_SHOW")
+                tvShow = TVShow(
+                    result.id,
+                    result.originalName,
+                    result.firstAirDate,
+                    result.voteAverage,
+                    result.overview,
+                    result.posterPath
                 )
                 tvShowPosterUrl = intent.getStringExtra("TV_SHOW_POSTER_URL")
             }

@@ -50,6 +50,5 @@ class DbOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "KatalogFilm.db"
     }
 }
 
-// Access property for context.
 val Context.db: DbOpenHelper
     get() = DbOpenHelper.getInstance(applicationContext)

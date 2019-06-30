@@ -6,6 +6,7 @@
     <string name="movies">Layar Lebar</string>
     <string name="tv_shows">Acara TV</string>
     <string name="favorites">Daftar Kesukaan</string>
+    <string name="search">Cari…</string>
 
     <string name="added_to_favorites">Ditambahkan ke dalam daftar kesukaan!</string>
     <string name="removed_from_favorites">Dihapus dari daftar kesukaan!</string>

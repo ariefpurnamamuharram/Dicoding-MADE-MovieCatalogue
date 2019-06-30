@@ -5,15 +5,14 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import id.ariefpurnamamuharram.katalogfilm.R
 import id.ariefpurnamamuharram.katalogfilm.api.ApiClient
 import id.ariefpurnamamuharram.katalogfilm.api.ApiServices
 import id.ariefpurnamamuharram.katalogfilm.api.tvshows.TVShow
 import id.ariefpurnamamuharram.katalogfilm.api.tvshows.TVShowsResponse
+import id.ariefpurnamamuharram.katalogfilm.main.search.tvshows.SearchTVShowsFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +35,8 @@ class TVShowsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        setHasOptionsMenu(true)
+
         // Disable swipeRefresh.
         swipeRefresh.isEnabled = false
 
@@ -44,6 +45,28 @@ class TVShowsFragment : Fragment() {
         )
 
         getTvShows(apiService)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.search_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                true
+            }
+            R.id.search -> {
+                val searchFragment = SearchTVShowsFragment()
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.container, searchFragment, SearchEvent::class.java.simpleName)
+                    ?.addToBackStack(null)
+                    ?.commit()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun getTvShows(apiService: ApiServices) {
@@ -57,7 +80,7 @@ class TVShowsFragment : Fragment() {
             override fun onFailure(call: Call<TVShowsResponse>, t: Throwable) {}
 
             override fun onResponse(call: Call<TVShowsResponse>, response: Response<TVShowsResponse>) {
-                tvShows = response.body()!!.results
+                tvShows = response.body()?.results ?: ArrayList()
 
                 // Kill progressbar.
                 progressbar.visibility = View.GONE
